@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ROI Calculator</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"
+            integrity="sha512-nhY06wKras39lb9lRO76J4397CH1XpRSLfLJSftTeo3+q2vP7PaebILH9TqH+GRpnOhfAGjuYMVmVTOZJ+682w=="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.css"/>
+    <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.min.js"
+            integrity="sha256-erF9fIMASEVmAWGdOmQi615Bmx0L/vWNixxTNDXS4FQ="
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="style-calc.css">
+</head>
+<body>
+<div class="container">
+    <div class="cust-row mt-2">
+        <div class="card col-lg-7 mt-2">
+            <form onsubmit="return false" class="ROIform">
+                <div class="row mb-2">
+                    <label for="industry" class="col-sm-6 mt-2">Industry</label>
+                    <div class="col-sm-6">
+                        <select id="industry" class="selectpicker form-control"
+                                data-live-search="true"
+                                data-live-search-style="startsWith" title="Nothing selected"
+                                data-default-value="Nothing selected">
+                            <option value="Carpet Cleaning Service">Carpet Cleaning Service</option>
+                            <option value="Cleaning Service">Cleaning Service</option>
+                            <option value="Fence Contractor">Fence Contractor</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label for="zip" class="col-sm-6 mt-2">Zipcode</label>
+                    <div class="col-sm-6">
+                        <input id="zip" type="text" class="form-control"
+                               oninput="this.value=this.value.replace(/\D/g,'')" maxlength="5"/>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label for="bill" class="col-sm-6 mt-2">Average Customer Service Bill</label>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input id="bill" type="text"
+                                   oninput="onlyNum()" minlength="1"
+                                   class="form-control floatNumberField">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label for="callsPerYear" class="col-sm-6 mt-2">Average Customer Calls/Services Per Year</label>
+                    <div class="col-sm-6">
+                        <input id="callsPerYear" type="text" class="form-control floatNumberField"
+                               oninput="onlyNum()" minlength="1"/>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label for="custIncr" class="col-sm-6 mt-2">Increase in New Customers Per Month</label>
+                    <div class="col-sm-6">
+                        <input id="custIncr" type="text" class="form-control"
+                               oninput="this.value=this.value.replace(/\D/g,'')" minlength="1" value="4"/>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label for="custLife" class="col-sm-6 mt-2">Average Customer Life in Years</label>
+                    <div class="col-sm-6">
+                        <input id="custLife" type="text" class="form-control floatNumberField"
+                               oninput="onlyNum()" minlength="1" value="5"/>
+                    </div>
+                </div>
+                <div class="buttons text-right">
+                    <button type="submit" class="btn btn-primary" onclick="formValidation()">Submit</button>
+                    <button type="reset" class="btn btn-danger resetBtn">Reset</button>
+                </div>
+            </form>
+        </div>
+        <div class="card col-lg-5 mt-2 d-none" id="calc-table">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td>Pricing Tool Outputs</td>
+                    <td>
+                        <span>$</span>
+                        <span id="mrf"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Monthly Revenue Impact</td>
+                    <td>
+                        <span>$</span>
+                        <span id="monthlyImpact"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Annual Revenue Impact</td>
+                    <td>
+                        <span>$</span>
+                        <span id="annualImpact"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Avg Customer Potential Impact</td>
+                    <td>
+                        <span>$</span>
+                        <span id="potentialImpact"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Monthly ROI</td>
+                    <td class="monthlyROI">
+                        <span id="monthlyROI"></span>
+                        <span>%</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Annual ROI</td>
+                    <td class="annualROI">
+                        <span id="annualROI"></span>
+                        <span>%</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <form>
+                <div class="buttons text-center d-flex">
+                    <input id="emailAddr" type="text" class="form-control" placeholder="Enter Email here..."/>
+                    <button type="submit" class="btn btn-success">Send Email</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script src="main.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>
+</body>
+</html>

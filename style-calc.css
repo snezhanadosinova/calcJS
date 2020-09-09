@@ -1,0 +1,36 @@
+.mb-2 {
+  margin-bottom: 0.5rem !important;
+}
+
+.mt-2 {
+  margin-top: 0.5rem !important;
+}
+
+.card {
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.buttons {
+  margin-top: 1rem;
+  border-top: 1px solid #cccccc;
+  padding-top: 1rem;
+}
+
+.d-none {
+  display: none;
+}
+
+.d-flex {
+  display: flex;
+  gap: 5px;
+}
+
+@media (min-width: 992px) {
+  .cust-row {
+    align-items: stretch;
+    display: flex;
+    gap: 5px;
+  }
+}
